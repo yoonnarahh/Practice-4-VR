@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PA4 – A-Frame – 243122</title>
+  <script src="https://aframe.io/releases/1.8.0/aframe.min.js"></script>
+  <script src="components.js"></script>
+</head>
+<body>
+  <!-- Тема: Underwater research base (темно-синий туман и цвет сцены) -->
+  <a-scene fog="type: exponential; color: #001e36; density: 0.05" vr-mode-ui="enabled: true" stats>
+    <a-assets>
+      <img id="tex-ground" src="textures/water_ground.jpg">
+      <img id="tex-metal" src="textures/metal_wall.jpg">
+      <img id="tex-glow" src="textures/glow_pattern.jpg">
+    </a-assets>
+
+    <!-- Подводное освещение -->
+    <a-sky color="#000d1a"></a-sky>
+    <a-light type="ambient" color="#005580" intensity="0.8"></a-light>
+    <a-light type="directional" color="#00aaff" position="-1 4 2" intensity="1.2"></a-light>
+
+    <!-- Дно / Пол с текстурой (повторение 10x10) — Сущность №1 для Task C -->
+    <a-plane position="0 0 0" rotation="-90 0 0" width="30" height="30"
+             x3122-texture="src: #tex-ground; repeat: 10 10">
+    </a-plane>
+
+    <!-- Задняя стена станции с металлической текстурой — Сущность №2 для Task C -->
+    <a-plane position="0 5 -8" width="30" height="10"
+             x3122-texture="src: #tex-metal; repeat: 6 2">
+    </a-plane>
+
+    <!-- Камера и Управление (Point-and-click variant) -->
+    <a-entity id="rig" position="0 0 5" wasd-controls>
+      <a-entity id="camera" camera look-controls position="0 1.6 0"
+                cursor="rayOrigin: mouse" raycaster="objects: .exhibit">
+      </a-entity>
+      <!-- VR контроллеры для клика -->
+      <a-entity laser-controls="hand: left" raycaster="objects: .exhibit"></a-entity>
+      <a-entity laser-controls="hand: right" raycaster="objects: .exhibit"></a-entity>
+    </a-entity>
+
+    <!-- Главная информационная панель (Студенческий ID + Статус галереи) -->
+    <a-entity position="0 2.8 -1">
+      <a-plane color="#002b4d" width="4" height="1.2" opacity="0.85"></a-plane>
+      <a-text id="info-panel" value="ID: 243122 | Loading..." align="center" position="0 0 0.01" color="#00ffff" width="3.8"></a-text>
+    </a-entity>
+
+    <!-- 
+      Расположение: Corridor (2 ряда по 3 экспоната, расстояние между рядами 3 м, вдоль 10 м)
+      Левый ряд: X = -1.5, Правый ряд: X = 1.5
+      Позиции Z: 2, -2, -6
+    -->
+    
+    <!-- Ряд 1 (Левый) -->
+    <a-entity class="exhibit" position="-1.5 1 2"
+              geometry="primitive: octahedron; radius: 0.6"
+              material="color: #00ffff"
+              x3122-motion="type: pulse; phase: 0.0"
+              x3122-exhibit="name: Hydro-Probe Alpha; info: Deep sea pressure sensor">
+    </a-entity>
+
+    <a-entity class="exhibit" position="-1.5 1 -2"
+              geometry="primitive: torus; radius: 0.5; radiusTubular: 0.15"
+              material="color: #00ffaa"
+              x3122-motion="type: pulse; phase: 1.0"
+              x3122-exhibit="name: Energy Core B; info: Thermal power generator">
+    </a-entity>
+
+    <!-- Куб с текстурой glow_pattern.jpg — Сущность №3 с текстурой -->
+    <a-entity class="exhibit" position="-1.5 1 -6"
+              geometry="primitive: box; depth: 0.8; height: 0.8; width: 0.8"
+              material="color: #ffffff"
+              x3122-texture="src: #tex-glow; repeat: 1 1"
+              x3122-motion="type: pulse; phase: 2.0"
+              x3122-exhibit="name: Bio-Sample Vault; info: Contains rare ocean flora">
+    </a-entity>
+
+    <!-- Ряд 2 (Правый) -->
+    <a-entity class="exhibit" position="1.5 1 2"
+              geometry="primitive: dodecahedron; radius: 0.6"
+              material="color: #00ccff"
+              x3122-motion="type: pulse; phase: 0.5"
+              x3122-exhibit="name: Sonar Node; info: Acoustic mapping device">
+    </a-entity>
+
+    <a-entity class="exhibit" position="1.5 1 -2"
+              geometry="primitive: cone; radiusBottom: 0.6; height: 1"
+              material="color: #00e6a8"
+              x3122-motion="type: pulse; phase: 1.5"
+              x3122-exhibit="name: Deep Sentinel; info: Autonomous sub-drone">
+    </a-entity>
+
+    <!-- Generic Entity (использование a-entity вместо примитива) -->
+    <a-entity class="exhibit" position="1.5 1 -6"
+              geometry="primitive: torusKnot; radius: 0.4; tube: 0.1"
+              material="color: #7700ff"
+              x3122-motion="type: pulse; phase: 2.5"
+              x3122-exhibit="name: Anomaly Artifact; info: Unknown origin relic">
+    </a-entity>
+
+  </a-scene>
+</body>
+</html>
